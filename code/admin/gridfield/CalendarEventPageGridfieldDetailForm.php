@@ -13,7 +13,7 @@ class CalendarEventPageGridFieldDetailForm extends CalendarEventGridFieldDetailF
  */
 class CalendarEventPageGridFieldDetailForm_ItemRequest extends CalendarEventGridFieldDetailForm_ItemRequest {           
 
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'edit',
 		'view',
 		'ItemEditForm'

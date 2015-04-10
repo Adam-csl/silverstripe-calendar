@@ -15,7 +15,7 @@ class CalendarAdmin extends LeftAndMain {
 	
 	static $menu_icon = "calendar/images/icons/calendar.png";
 
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'pastevents',
 		'calendars',
 		'ComingEventsForm',

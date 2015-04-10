@@ -7,7 +7,7 @@
  */
 class EventRegistrationController extends Controller {
 	
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'registerform',
 		'paymentregisterform'
 	);

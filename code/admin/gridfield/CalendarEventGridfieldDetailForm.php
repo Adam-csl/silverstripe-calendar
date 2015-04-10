@@ -21,7 +21,7 @@ class CalendarEventGridFieldDetailForm extends GridFieldDetailForm {
  */
 class CalendarEventGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {
 
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'edit',
 		'view',
 		'ItemEditForm'

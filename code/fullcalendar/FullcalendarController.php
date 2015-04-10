@@ -15,7 +15,7 @@ class FullcalendarController extends Controller {
 	protected $member = null;
 	
 
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'shadedevents',
 		'publicevents',
 	);	

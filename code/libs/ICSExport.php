@@ -243,7 +243,7 @@ class ICSExport_Controller extends Controller {
 		parent::init();
 	}
 
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'cal',
 		'all',
 		'my',

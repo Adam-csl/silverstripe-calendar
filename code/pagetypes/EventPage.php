@@ -9,10 +9,10 @@
  */
 class EventPage extends Page {
 	
-	private static $singular_name = 'Event Page';
-	private static $description = 'Provides for a permanent URL for recurring events like festivals, monthly shopping events etc.';
+	public static $singular_name = 'Event Page';
+	public static $description = 'Provides for a permanent URL for recurring events like festivals, monthly shopping events etc.';
 
-	private static $has_many = array (
+	public static $has_many = array (
 		//The other side of this relationship is defined in @ee EventHasEventPageExtension
 		'Events' => 'Event',
 	);

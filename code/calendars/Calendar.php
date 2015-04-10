@@ -18,7 +18,7 @@ class Calendar extends DataObject {
 
 	static $default_sort = 'Title';
 
-	private static $summary_fields = array(
+	public static $summary_fields = array(
 		'Title' => 'Title',
 	);
 
