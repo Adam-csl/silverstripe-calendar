@@ -220,7 +220,13 @@ class CalendarPage_Controller extends Page_Controller {
 			//Debug::dump($filter);
 			$events = CalendarHelper::all_events()
 				->where($filter);
-			return $events;
+			$array = new ArrayList();
+			foreach ($events as $event) {
+				if ($event->canView()){
+					$array->push($event);
+				}
+			}
+			return $array;
 		}
 		
 		
