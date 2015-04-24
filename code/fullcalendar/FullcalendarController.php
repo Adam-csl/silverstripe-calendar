@@ -106,11 +106,22 @@ class FullcalendarController extends Controller {
 			$calendarsSupplied = true;
 		}
 		
-		$events = PublicEvent::get()
+		
+		if(Permission::check("ACCESS_PRIVATE_EVENT")){
+			$events = PublicEvent::get()
 			->filter(array(
 				'StartDateTime:GreaterThan' => $this->eventlistOffsetDate('start', $request->postVar('start'), $offset),
 				'EndDateTime:LessThan' => $this->eventlistOffsetDate('end', $request->postVar('end'), $offset),
 			));
+		}else{
+			$events = PublicEvent::get()
+			->filter(array(
+				'StartDateTime:GreaterThan' => $this->eventlistOffsetDate('start', $request->postVar('start'), $offset),
+				'EndDateTime:LessThan' => $this->eventlistOffsetDate('end', $request->postVar('end'), $offset),
+				'Private' => '0'
+			));
+		}
+		
 
 		//If shaded events are enabled we need to filter shaded calendars out
 		//note that this only takes effect when no calendars have been supplied
