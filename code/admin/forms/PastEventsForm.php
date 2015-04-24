@@ -17,8 +17,7 @@ class PastEventsForm extends Form {
 		$gridEventConfig = ComingEventsForm::eventConfig();
 		
 		$GridFieldPast = new GridField('PastEvents', '', 
-			CalendarHelper::past_events()
-				->sort('StartDateTime DESC'), 
+			CalendarHelper::past_events(), 
 			$gridEventConfig);		
 
 

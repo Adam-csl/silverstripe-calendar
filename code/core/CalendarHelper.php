@@ -17,7 +17,13 @@ class CalendarHelper {
 		$time = ($from ? strtotime($from) : mktime(0, 0, 0, date('m'), date('d'), date('Y')));
 		$sql = "(StartDateTime >= '".date('Y-m-d', $time)." 00:00:00')";
 		$events = PublicEvent::get()->where($sql);
-		return $events;
+		$array = new ArrayList();
+		foreach ($events as $event) {
+			if ($event->canView()){
+				$array->push($event);
+			}
+		}
+		return $array;
 	}
 
 	/**
@@ -25,7 +31,13 @@ class CalendarHelper {
 	 */
 	static function coming_events_limited($from=false, $limit=30){
 		$events = self::coming_events($from)->limit($limit);
-		return $events;
+		$array = new ArrayList();
+		foreach ($events as $event) {
+			if ($event->canView()){
+				$array->push($event);
+			}
+		}
+		return $array;
 	}
 	
 	/**
@@ -38,7 +50,13 @@ class CalendarHelper {
 				)
 			);
 		
-		return $events;
+		$array = new ArrayList();
+		foreach ($events as $event) {
+			if ($event->canView()){
+				$array->push($event);
+			}
+		}
+		return $array;
 	}
 
 	/**
@@ -46,7 +64,13 @@ class CalendarHelper {
 	 */
 	static function all_events(){
 		$events = PublicEvent::get();
-		return $events;
+		$array = new ArrayList();
+		foreach ($events as $event) {
+			if ($event->canView()){
+				$array->push($event);
+			}
+		}
+		return $array;
 	}
 
 	/**
@@ -54,7 +78,13 @@ class CalendarHelper {
 	 */
 	static function all_events_limited($limit = 30){
 		$events = self::all_events()->limit($limit);
-		return $events;
+		$array = new ArrayList();
+		foreach ($events as $event) {
+			if ($event->canView()){
+				$array->push($event);
+			}
+		}
+		return $array;
 	}
 
 	/**
@@ -76,6 +106,12 @@ class CalendarHelper {
 		$events = PublicEvent::get()
 			->where($sql);
 		
-		return $events;
+		$array = new ArrayList();
+		foreach ($events as $event) {
+			if ($event->canView()){
+				$array->push($event);
+			}
+		}
+		return $array;
 	}
 }
