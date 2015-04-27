@@ -217,15 +217,27 @@ class CalendarPage_Controller extends Page_Controller {
 				$first = false;
 			}
 			
-			//Debug::dump($filter);
-			$events = CalendarHelper::all_events()
-				->where($filter);
+			$sqlQuery = new SQLQuery();
+			$sqlQuery->setFrom('Event');
+			$sqlQuery->addSelect('*');
+			$sqlQuery->addWhere($filter);
+			$result = $sqlQuery->execute();
 			$array = new ArrayList();
-			foreach ($events as $event) {
-				if ($event->canView()){
-					$array->push($event);
+			foreach ($result as $event) {
+				$Event = Event::get()->byID($event['ID']);
+				if ($Event->CheckCanView()) {
+					$array->push($Event);
 				}
 			}
+			//Debug::dump($filter);
+			// $events = CalendarHelper::all_events()
+			// 	->where($filter);
+			// $array = new ArrayList();
+			// foreach ($events as $event) {
+			// 	if ($event->canView()){
+			// 		$array->push($event);
+			// 	}
+			// }
 			return $array;
 		}
 		
