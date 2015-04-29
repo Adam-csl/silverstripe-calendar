@@ -23,29 +23,17 @@ class CalendarHelper {
 		$events = PublicEvent::get()->where($sql);
 		
 		return $events;
-		// $array = new ArrayList();
-		// foreach ($events as $event) {
-		// 	if ($event->CheckCanView()){
-		// 		$array->push($event);
-		// 	}
-		// }
-		// return $array;
 	}
 
 	/**
 	 * Get all coming public events - with optional limit
 	 */
 	static function coming_events_limited($from=false, $limit=30){
-		$events = self::coming_events($from)->limit($limit)->filterByCallback(function($item, $list) {return $item->CheckCanView();});
-		
+		$events = self::coming_events($from)->limit($limit);
+		if (!Permission::check('ACCESS_PRIVATE_EVENT')){
+			$events = self::coming_events($from)->filter(array("Private" => "0"))->limit($limit);
+		}
 		return $events;
-		// $array = new ArrayList();
-		// foreach ($events as $event) {
-		// 	if ($event->CheckCanView()){
-		// 		$array->push($event);
-		// 	}
-		// }
-		// return $array;
 	}
 	
 	/**
@@ -57,13 +45,16 @@ class CalendarHelper {
 					'StartDateTime:LessThan' => date('Y-m-d',time())
 				)
 			);
-		$array = new ArrayList();
-		foreach ($events as $event) {
-			if ($event->CheckCanView()){
-				$array->push($event);
-			}
+		
+		if (!Permission::check('ACCESS_PRIVATE_EVENT')){
+			$events = PublicEvent::get()
+			->filter(array(
+					'StartDateTime:LessThan' => date('Y-m-d',time()),
+					"Private" => "0"
+				)
+			);
 		}
-		return $array;
+		return $events;
 	}
 
 	/**
@@ -71,14 +62,10 @@ class CalendarHelper {
 	 */
 	static function all_events(){
 		$events = PublicEvent::get();
-		
-		$array = new ArrayList();
-		foreach ($events as $event) {
-			if ($event->CheckCanView()){
-				$array->push($event);
-			}
+		if (!Permission::check('ACCESS_PRIVATE_EVENT')){
+			$events = PublicEvent::get()->filter(array("Private" => "0"));
 		}
-		return $array;
+		return $events;
 	}
 
 	/**
@@ -86,14 +73,10 @@ class CalendarHelper {
 	 */
 	static function all_events_limited($limit = 30){
 		$events = self::all_events()->limit($limit);
-
-		$array = new ArrayList();
-		foreach ($events as $event) {
-			if ($event->CheckCanView()){
-				$array->push($event);
-			}
+		if (!Permission::check('ACCESS_PRIVATE_EVENT')){
+			$events = self::all_events()->filter(array("Private" => "0"))->limit($limit);
 		}
-		return $array;
+		return $events;
 	}
 
 	/**
@@ -117,16 +100,8 @@ class CalendarHelper {
 						"(EndDateTime BETWEEN '$currMonthStr' AND '$nextMonthStr' AND Private ='0')";
 		}
 		$events = PublicEvent::get()
-			->where($sql)
-			->filterByCallback(function($item, $list) {return $item->CheckCanView();});
+			->where($sql);
 		
 		return $events;
-		// $array = new ArrayList();
-		// foreach ($events as $event) {
-		// 	if ($event->CheckCanView()){
-		// 		$array->push($event);
-		// 	}
-		// }
-		// return $array;
 	}
 }
